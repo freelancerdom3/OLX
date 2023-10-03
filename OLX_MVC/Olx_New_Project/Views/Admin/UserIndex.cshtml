@@ -1,0 +1,148 @@
+﻿
+@model IEnumerable<Olx_New_Project.Models.UserList>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<br />
+<br />
+<br />
+@*<style>
+        th {
+            text-align: center;
+        }
+
+        td {
+            text-align: center;
+        }
+    </style>*@
+<style>
+
+    .scroll-container {
+        overflow: auto;
+        height: 500px;
+        max-height: 700px;
+    }
+</style>
+<div class="scroll-container">
+    <div class="container">
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+                <input type="text" id="Search" placeholder="Search" class="form-control" />
+            </div>
+        </div>
+    </div>
+    <h2>Index</h2>
+
+    <p>
+
+    </p>
+    <table class="table table-striped table-bordered" style="width:auto">
+        <tr>
+            <th style="color:black">
+                @Html.DisplayNameFor(model => model.UserId)
+            </th>
+            <th style="color:black">
+                @Html.DisplayNameFor(model => model.firstName)
+            </th>
+            <th style="color:black">
+                @Html.DisplayNameFor(model => model.lastName)
+            </th>
+            <th style="color:black">
+                @Html.DisplayNameFor(model => model.userEmail)
+            </th>
+            <th style="color:black">
+                @Html.DisplayNameFor(model => model.Password)
+            </th>
+            <th style="color:black">
+                @Html.DisplayNameFor(model => model.MobileNo)
+            </th>
+            <th style="color:black">
+                @Html.DisplayNameFor(model => model.Gender)
+            </th>
+            <th style="color:black">
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th style="color:black">
+                @Html.DisplayNameFor(model => model.City)
+            </th>
+            <th style="color:black">Action</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+
+            <tr class="Search">
+
+                <td style="color:black">
+                    @Html.DisplayFor(modelItem => item.UserId)
+                </td>
+                <td style="color:black">
+                    @Html.DisplayFor(modelItem => item.firstName)
+                </td>
+                <td style="color:black">
+                    @Html.DisplayFor(modelItem => item.lastName)
+                </td>
+                <td style="color:black">
+                    @Html.DisplayFor(modelItem => item.userEmail)
+                </td>
+                <td style="color:black">
+                    @Html.DisplayFor(modelItem => item.Password)
+                </td>
+                <td style="color:black">
+                    @Html.DisplayFor(modelItem => item.MobileNo)
+                </td>
+                <td style="color:black">
+                    @Html.DisplayFor(modelItem => item.Gender)
+                </td>
+                <td style="color:black">
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td style="color:black">
+                    @Html.DisplayFor(modelItem => item.City)
+                </td>
+                <td style="color:black">
+                    @Html.ActionLink("Edit", "UserEdit", new { id = item.UserId }, new { @class = "btn btn-primary" }) |
+                    @Html.ActionLink("Details", "UserDetails", new { id = item.UserId }, new { @class = "btn btn-primary", style = " background-color:Green;" }) |
+                    @Html.ActionLink("Delete", "UserDelete", new { id = item.UserId }, new { @class = "btn btn-primary", style = " background-color:Red;" })
+                </td>
+            </tr>
+
+
+        }
+    </table>
+</div>
+
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+<script>
+    $(document).ready(function () {
+
+        function Contains(text_one, text_two) {
+            if (text_one.indexOf(text_two) != -1)
+                return true;
+        }
+        $("#Search").keyup(function () {
+
+            var searchText = $("#Search").val().toLowerCase();
+            $(".Search").each(function () {
+
+                if (!Contains($(this).text().toLowerCase(), searchText)) {
+                    $(this).hide();
+                }
+                else {
+                    $(this).show();
+                }
+
+            });
+
+        });
+
+    });
+
+</script>
+
+
+
+
