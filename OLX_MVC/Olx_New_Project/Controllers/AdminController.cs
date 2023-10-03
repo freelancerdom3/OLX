@@ -98,19 +98,19 @@ namespace Olx_New_Project.Controllers
         public ActionResult UserIndex()
         {
             IEnumerable<UserList> ul = dataAccess.GetAllUser();
-            return View("UserIndex", "admin_layout", ul);
+            return View("UserIndex", "Admin_Layout", ul);
         }
 
         public ActionResult UserDetails(int? id)
         {
             UserList product = dataAccess.GetUserData(id);
-            return View("UserDetails", "admin_layout", product);
+            return View("UserDetails", "Admin_Layout", product);
         }
 
         public ActionResult UserEdit(int id)
         {
             UserList user = dataAccess.GetUserData(id);
-            return View(user);
+            return View("UserEdit", "Admin_Layout", user);
         }
         [HttpPost]
         public ActionResult UserEdit(UserList ul)
@@ -129,7 +129,7 @@ namespace Olx_New_Project.Controllers
         public ActionResult UserDelete(int? id)
         {
             UserList userList = dataAccess.GetUserData(id);
-            return View(userList);
+            return View("UserDelete", "Admin_Layout", userList);
         }
 
         // POST: olx/Delete/5
