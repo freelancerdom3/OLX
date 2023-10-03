@@ -1,0 +1,95 @@
+﻿@model IEnumerable<Olx_New_Project.Models.ProductSubCategoryModel>
+
+@{
+    ViewBag.Title = "SubCategoryList";
+}
+<style>
+    .scroll-container {
+        overflow: auto;
+        height: 500px;
+        max-height: 700px;
+    }
+</style>
+
+<br />
+<br />
+<br />
+<div class="scroll-container">
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+            <input type="text" id="Search" placeholder="Search" class="form-control" />
+        </div>
+    </div>
+    <p style=" margin: 0 755px 10px;">
+        <a href="@Url.Action("SubCategoryListCreate")" class="btn btn-success">Create New</a>
+    </p>
+    <table class="table table-striped table-bordered" style="width:auto">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.productCategoryId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.productSubCategoryName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.createdOn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.updatedOn)
+            </th>
+            <th>Action</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr class="Search bg-info">
+                <td>
+                    @Html.DisplayFor(modelItem => item.productCategoryId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.productSubCategoryName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.createdOn)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.updatedOn)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "SubCategoryListEdit", new { productSubCategoryId = item.productSubCategoryId }, new { @class = "btn btn-primary" }) |
+                    @Html.ActionLink("Details", "SubCategoryListDetails", new { productSubCategoryId = item.productSubCategoryId }, new { @class = "btn btn-info" }) |
+                    @Html.ActionLink("Delete", "SubCategoryListDelete", new { productSubCategoryId = item.productSubCategoryId }, new { @class = "btn btn-danger" })
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+<script>
+        $(document).ready(function () {
+
+            function Contains(text_one, text_two) {
+                if (text_one.indexOf(text_two) != -1)
+                    return true;
+            }
+            $("#Search").keyup(function () {
+
+                var searchText = $("#Search").val().toLowerCase();
+                $(".Search").each(function () {
+
+                    if (!Contains($(this).text().toLowerCase(), searchText)) {
+                        $(this).hide();
+                    }
+                    else {
+                        $(this).show();
+                    }
+
+                });
+
+            });
+
+        });
+
+</script>

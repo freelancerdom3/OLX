@@ -1,0 +1,58 @@
+﻿@model Olx_New_Project.Models.ProductSubCategoryModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ProductSubCategoryModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.productSubCategoryId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.productSubCategoryId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.productCategoryId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.productCategoryId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.productSubCategoryName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.productSubCategoryName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.createdOn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.createdOn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.updatedOn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.updatedOn)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "SubCategoryListEdit", new {  productSubCategoryId = Model.productSubCategoryId  }) |
+    @Html.ActionLink("Back to List", "SubCategoryList")
+</p>
