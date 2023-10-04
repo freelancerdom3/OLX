@@ -19,7 +19,109 @@ namespace Olx_New_Project.Models
             con = new SqlConnection(constr);
 
         }
+        public int GetOtp(int userId, out string message)
+        {
+            SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ToString());
+            string query = "SELECT lu.LoginOtp FROM Users u JOIN LoginUser lu ON u.userId = lu.userIdByLoginUser WHERE lu.LoginUserId = @id and lu.ExpirationLoginTime>GETDATE()";
 
+            SqlCommand cmd = new SqlCommand(query, connection);
+            cmd.Parameters.AddWithValue("@id", userId);
+            connection.Open();
+            int count = (int)(cmd.ExecuteScalar() ?? 0); // Use null coalescing to handle null results
+            connection.Close();
+            if (count == 0)
+            {
+                message = "Time Expired";
+                return 0;
+            }
+            else
+            {
+                message = string.Empty;
+
+                return count;
+            }
+            // Set the out parameter here
+
+        }
+        public int getidfromOtp(int userotp, out string msg)
+        {
+
+
+            SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ToString());
+            string query = "SELECT LoginUserId FROM LoginUser where LoginOtp=@otp";
+
+            SqlCommand cmd = new SqlCommand(query, connection);
+            cmd.Parameters.AddWithValue("@otp", userotp);
+            connection.Open();
+            object c = cmd.ExecuteScalar();
+            connection.Close();
+            if (c == null)
+            {
+                msg = "Otp not matched";
+                return 0;
+
+            }
+
+            msg = null;
+            //else { msg = "user found"; return (int)c; }
+            return (int)c;
+        }
+        public bool MobileNumberExists(string MobileNo)
+        {
+            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ToString()))
+            {
+                connection.Open();
+
+                string query = "SELECT COUNT(*) FROM Users WHERE MobileNo = @mobile";
+                using (SqlCommand cmd = new SqlCommand(query, connection))
+                {
+                    cmd.Parameters.AddWithValue("@mobile", MobileNo);
+
+                    int count = (int)cmd.ExecuteScalar();
+                    return count > 0;
+                }
+            }
+        }
+        public bool InsertOtp(int userid, int otp, DateTime expiretime)
+        {
+            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ToString()))
+            {
+                connection.Open();
+                string q = "insert into LoginUser(userIdByLoginUser,LoginOtp,ExpirationLoginTime)values(@id,@otp,@expiretime)";
+                using (SqlCommand cmd = new SqlCommand(q, connection))
+                {
+                    cmd.Parameters.AddWithValue("@id", userid);
+                    cmd.Parameters.AddWithValue("@otp", otp);
+                    cmd.Parameters.AddWithValue("@expiretime", expiretime);
+                    int rows = cmd.ExecuteNonQuery();
+                    return rows > 0;
+                }
+            }
+        }
+        public int GetUserIdByMobileNumber(string mobileNumber)
+        {
+
+            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ToString()))
+            {
+                connection.Open();
+
+                string query = "SELECT userId FROM Users WHERE MobileNo = @mobile";
+                SqlCommand cmd = new SqlCommand(query, connection);
+
+                cmd.Parameters.AddWithValue("@mobile", mobileNumber);
+
+                object result = cmd.ExecuteScalar();
+                if (result != null)
+                {
+                    return (int)result;
+                }
+                else
+                {
+                    return 0;
+                }
+
+            }
+        }
 
         public bool IsAdmin(string userEmail)
         {
