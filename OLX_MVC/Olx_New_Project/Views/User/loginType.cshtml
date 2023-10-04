@@ -1,0 +1,65 @@
+﻿
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+<div id="Allview">
+    <div class="alert-success">
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @Style = "border: 3px solid blue; margin:50px auto; text-align: center;" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-group">
+
+                <br />
+                @*<a href="@Url.Action("sendotp","User")"><input type="button" value="Login With Numbe"></a><br />*@
+                <a><input type="button" value="Login With Numbe" id="myAsyncButtonNumber"></a><br /><br />
+                <h4>OR</h4><br />
+
+                @*<a href="@Url.Action("login","User")"><input type="button" value="Login With Email" id="myAsyncButton"></a><br /><br />*@
+                <a><input type="button" value="Login With Email" id="myAsyncButtonEmail"></a><br /><br />
+
+                <a href="@Url.Action("Registration","Home")"><input type="button" value="Sign Up"></a><br /><br />
+
+                @*<button type="submit" value="Signup" onsubmit="onclick1dfsd()">Sign Up</button>*@
+                @*<input type="submit" class="btn btn-danger" value="Reject" name="response" formaction="@Url.Action("LoginWithEmail")" />*@
+            </div>
+
+        }
+    </div>
+</div>
+<style>
+    .form-group a {
+        color: black;
+        Background-color: aquamarine;
+    }
+</style>
+
+
+
+<script>
+        $(document).ready(function () {
+            $("#myAsyncButtonEmail").click(function () {
+                $.ajax({
+                    url: '@Url.Action("login", "User")', // Replace with the correct URL
+                    type: 'GET',
+                    success: function (result) {
+                        $("#Allview").html(result);
+                    },
+                    error: function () {
+                        alert("Error loading button view.");
+                    }
+                });
+            });
+            $("#myAsyncButtonNumber").click(function () {
+                $.ajax({
+                    url: '@Url.Action("sendotp", "User")', // Replace with the correct URL
+                    type: 'GET',
+                    success: function (result) {
+                         $("#Allview").html(result);
+                    },
+                    error: function () {
+                         alert("Error loading button view.");
+                    }
+                });
+               });
+        });
+</script>
