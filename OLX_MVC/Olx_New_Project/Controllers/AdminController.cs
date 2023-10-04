@@ -150,17 +150,17 @@ namespace Olx_New_Project.Controllers
         public ActionResult AdvList(string SearchItem, int? i)
         {
             IEnumerable<AdvertiseListModel> products = dataAccess.GetAllAdvertiseList();
-            return View(products);
+            return View("AdvList", "Admin_Layout", products);
         }
 
         public ActionResult AdvDetails(int advertiseId)
         {
             AdvertiseListModel product = dataAccess.GetAdvertiseList(advertiseId);
-            return View(product);
+            return View("AdvDetails", "Admin_Layout", product);
         }
         public ActionResult AdvCreate()
         {
-            return View();
+            return View("AdvCreate", "Admin_Layout");
         }
 
         [HttpPost]
@@ -181,7 +181,7 @@ namespace Olx_New_Project.Controllers
         public ActionResult AdvEdit(int advertiseId)
         {
             AdvertiseListModel product = dataAccess.GetAdvertiseList(advertiseId);
-            return View(product);
+            return View("AdvEdit", "Admin_Layout", product);
         }
 
         [HttpPost]
@@ -201,7 +201,7 @@ namespace Olx_New_Project.Controllers
         public ActionResult AdvDelete(int advertiseId)
         {
             AdvertiseListModel product = dataAccess.GetAdvertiseList(advertiseId);
-            return View(product);
+            return View("AdvDelete", "Admin_Layout", product);
         }
 
         [HttpPost]
