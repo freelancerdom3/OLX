@@ -94,5 +94,58 @@ namespace Olx_New_Project.Controllers
                 return View();
             }
         }
+
+        public ActionResult UserIndex()
+        {
+            IEnumerable<UserList> ul = dataAccess.GetAllUser();
+            return View("UserIndex", "Admin_Layout", ul);
+        }
+
+        public ActionResult UserDetails(int? id)
+        {
+            UserList product = dataAccess.GetUserData(id);
+            return View("UserDetails", "Admin_Layout", product);
+        }
+
+        public ActionResult UserEdit(int id)
+        {
+            UserList user = dataAccess.GetUserData(id);
+            return View("UserEdit", "Admin_Layout", user);
+        }
+        [HttpPost]
+        public ActionResult UserEdit(UserList ul)
+        {
+            try
+            {
+                dataAccess.Updateuser(ul);
+
+                return RedirectToAction(nameof(UserIndex));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+        public ActionResult UserDelete(int? id)
+        {
+            UserList userList = dataAccess.GetUserData(id);
+            return View("UserDelete", "Admin_Layout", userList);
+        }
+
+        // POST: olx/Delete/5
+        [HttpPost]
+        public ActionResult UserDelete(int id)
+        {
+            try
+            {
+                dataAccess.DeleteUser(id);
+                return RedirectToAction(nameof(UserIndex));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
     }
 }
