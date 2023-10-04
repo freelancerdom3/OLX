@@ -122,11 +122,14 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\All_Models.cs" />
     <Compile Include="Models\DataAccess.cs" />
+    <Compile Include="Models\LoginUserModel.cs" />
+    <Compile Include="Models\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -173,10 +176,14 @@
     <Content Include="Views\Shared\Admin_Layout.cshtml" />
     <Content Include="Views\Admin\SubCategoryList.cshtml" />
     <Content Include="Views\Admin\Dashboard.cshtml" />
+<<<<<<< HEAD
+    <Content Include="Views\User\login.cshtml" />
+=======
     <Content Include="Views\Admin\UserIndex.cshtml" />
     <Content Include="Views\Admin\UserDetails.cshtml" />
     <Content Include="Views\Admin\UserEdit.cshtml" />
     <Content Include="Views\Admin\UserDelete.cshtml" />
+>>>>>>> 9a94f9b3cfe700dcb670fe3f4635569b0b8985f3
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

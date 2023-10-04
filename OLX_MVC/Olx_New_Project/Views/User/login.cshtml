@@ -1,0 +1,121 @@
+﻿﻿@model Olx_New_Project.Models.UserModel 
+<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+@{
+    Layout = null;
+}
+
+
+
+<style>
+    /* Center the form on the page */
+    .centered-form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 50vh; /* Set to full viewport height */
+    }
+
+    .form-container {
+        text-align: center;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        max-width: 400px;
+    }
+
+    /* Add additional styles as needed */
+</style>
+
+<div class="centered-form">
+    @using (Html.BeginForm("login", "User", FormMethod.Post, new { @class = "form-container" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <h4>LoginModel</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.userEmail, "Enter Email", htmlAttributes: new { @class = "control-label" })
+            <div>
+                @Html.EditorFor(model => model.userEmail, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.userEmail, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.userPassword, "Enter Password", htmlAttributes: new { @class = "control-label" })
+            <div>
+                @Html.EditorFor(model => model.userPassword, new { htmlAttributes = new { @class = "form-control", Type = "password" } })
+                @Html.ValidationMessageFor(model => model.userPassword, "", new { @class = "text-danger" })<br />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" class="btn btn-success" id="btnSubmit" value="Login" />
+        </div>
+    }
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        //$(".attachmentdiv").hide();
+        $(function () {
+            $('#btnSubmit').click(function (event) {
+             /*   debugger;*/
+                event.preventDefault();
+                var authmodel = {
+                    userEmail: $('#userEmail').val(),
+                    userPassword: $('#userPassword').val()
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "/User/login",
+                    data: JSON.stringify(authmodel),
+                    dataType: "json",
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        if (data == 1) {
+                            var url = window.location.href
+                            url = '/Home/Index';
+                            window.location.href = url;
+                        }
+                        else if (data == 2) {
+                            var url = window.location.href
+                            url = '/Admin/Dashboard';
+                            window.location.href = url;
+                        }
+                        @*else {
+                            // Check if there is a ViewBag message and display it in an alert
+                            var errorMessage = '@ViewBag.m';
+                            if (errorMessage) {
+                                alert(errorMessage);
+                            } else {
+                                alert("Invalid Credential!!");
+                            }
+                        }*@
+                        else if (data == 3) {
+                            alert("Email not exist.")
+                        }
+                        else {
+                            alert("Invalid Credential!!");
+                        }
+                        //var url = window.location.href
+                        //url = '/home/Project';
+                        //window.location.href = url;
+                    },
+                    error: function () {
+                        alert("Please Enter Details!!")
+                    }
+                });
+            });
+        });
+    });
+</script>
+
