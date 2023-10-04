@@ -1,0 +1,108 @@
+﻿
+
+
+@model Olx_New_Project.Models.LoginUser
+@{
+    Layout = null;
+}
+<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+<style>
+    /* Center the form on the page */
+    #Allview {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 50vh; /* Set to half viewport height */
+    }
+
+    .form-container {
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        max-width: 400px;
+    }
+</style>
+<div id="AllView">
+    @using (Html.BeginForm("MatchOtp", "User", FormMethod.Post, new { @class = "form-container" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4 style="text-align:center">Verify Otp</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+
+                @Html.LabelFor(model => model.LoginOtp, "EnterOtp", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.LoginOtp, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.LoginOtp, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <br />
+
+
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10" style="text-align:center">
+                    @*<input type="submit" value="Login" class="btn btn-default" />*@
+                    <a><input type="submit" value="Verify Otp" id="myAsyncButtonMatch" class="btn btn-success"></a>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        //$(".attachmentdiv").hide();
+        $(function () {
+            $('#myAsyncButtonMatch').click(function (event) {
+
+                event.preventDefault();
+                var authmodel = {
+                    LoginOtp: $('#LoginOtp').val()
+                };
+                if (!authmodel) {
+                    alert("Please Enter otp");
+                    return;
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: "/User/MatchOtp",
+                    data: JSON.stringify(authmodel),
+                    dataType: "json",
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+
+                        if (data == 1) {
+                            var url = window.location.href
+                            url = '/Home/Index';
+                            window.location.href = url;
+                        }
+                        else {
+                            alert("Invalid otp!!");
+                        }
+                        //var url = window.location.href
+                        //url = '/home/Project';
+                        //window.location.href = url;
+                    },
+                    error: function () {
+                        alert("Error occured!!")
+                    }
+                });
+            });
+        });
+    });
+</script>

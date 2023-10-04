@@ -147,5 +147,76 @@ namespace Olx_New_Project.Controllers
             }
         }
 
+        public ActionResult AdvList(string SearchItem, int? i)
+        {
+            IEnumerable<AdvertiseListModel> products = dataAccess.GetAllAdvertiseList();
+            return View("AdvList", "Admin_Layout", products);
+        }
+
+        public ActionResult AdvDetails(int advertiseId)
+        {
+            AdvertiseListModel product = dataAccess.GetAdvertiseList(advertiseId);
+            return View("AdvDetails", "Admin_Layout", product);
+        }
+        public ActionResult AdvCreate()
+        {
+            return View("AdvCreate", "Admin_Layout");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AdvCreate(AdvertiseListModel product)
+        {
+            try
+            {
+                dataAccess.AddAdvertiseList(product);
+                return RedirectToAction(nameof(AdvList));
+            }
+            catch (Exception ex)
+            {
+                return View();
+            }
+        }
+
+        public ActionResult AdvEdit(int advertiseId)
+        {
+            AdvertiseListModel product = dataAccess.GetAdvertiseList(advertiseId);
+            return View("AdvEdit", "Admin_Layout", product);
+        }
+
+        [HttpPost]
+        public ActionResult AdvEdit(AdvertiseListModel product)
+        {
+            try
+            {
+                dataAccess.UpdateAdvertiseList(product);
+                return RedirectToAction(nameof(AdvList));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        public ActionResult AdvDelete(int advertiseId)
+        {
+            AdvertiseListModel product = dataAccess.GetAdvertiseList(advertiseId);
+            return View("AdvDelete", "Admin_Layout", product);
+        }
+
+        [HttpPost]
+        public ActionResult AdvDelete(AdvertiseListModel product)
+        {
+            try
+            {
+                dataAccess.DeleteAdvertiseList(product.advertiseId);
+                return RedirectToAction(nameof(AdvList));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
     }
 }

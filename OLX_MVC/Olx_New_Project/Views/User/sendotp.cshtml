@@ -1,0 +1,106 @@
+﻿
+@{
+    Layout = null;
+}
+@model Olx_New_Project.Models.LoginModel
+<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<style>
+    /* Center the form on the page */
+    #Allview {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 50vh; /* Set to half viewport height */
+    }
+
+    .form-container {
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        max-width: 400px;
+    }
+</style>
+
+<div id="Allview">
+    @using (Html.BeginForm("sendotp", "user", FormMethod.Post, new { @class = "form-container" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4 style="text-align:center">Generate Otp</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.MobileNo, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.MobileNo, new { htmlAttributes = new { @class = "form-control", Type = "number" } })
+                    @Html.ValidationMessageFor(model => model.MobileNo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <br>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10" style="text-align:center">
+
+                    @*<a href="@Url.Action("MatchOtp","Home")"><button type="submit" value="Generate Otp" class="btn btn-default"></button></a>*@
+                    <a><input type="button" value="Send Otp" id="myAsyncButtonSend" class="btn btn-success"></a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
+<script>
+    $(document).ready(function () {
+        $("#myAsyncButtonSend").click(function () {
+            // Check if mobile number exists
+            var mobileNo = $('#MobileNo').val();
+            if (!mobileNo) {
+                alert("Please Enter Mobile Number");
+                return;
+            }
+
+            // AJAX request to send OTP
+            $.ajax({
+                type: "POST",
+                url: "/User/sendotp",
+                data: JSON.stringify({ MobileNo: mobileNo }),
+                dataType: "json",
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    if (data != 0) {
+                        // Load the "Match OTP" page using AJAX
+                        $.ajax({
+                            url: '/User/MatchOtp',
+                            type: 'GET',
+                            success: function (result) {
+                                $("#Allview").html(result);
+                            },
+                            error: function () {
+                                alert("Error loading OTP page.");
+                            }
+                        });
+                    } else {
+                        alert("Mobile number does not exist");
+                    }
+                },
+                error: function () {
+                    alert("error ocured!!");
+                }
+            });
+        });
+    });
+</script>
+
+
+

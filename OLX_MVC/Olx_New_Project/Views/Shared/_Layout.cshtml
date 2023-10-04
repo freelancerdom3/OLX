@@ -1,42 +1,481 @@
-﻿<!DOCTYPE html>
-<html>
+﻿
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
-    <meta charset="utf-8" />
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+    <title>olxproject</title>
+    @*<link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />*@
+    <script src="https://kit.fontawesome.com/43e3546376.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/popperjs/core@2.9.2/dist/umd/popper.min.js"
+            integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+            integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+            crossorigin="anonymous"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        header {
+            width: 100%;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            background-color: #f3f3f3;
+        }
+
+        .logof {
+            width: 40px;
+            margin-left: 80px;
+        }
+
+        .logo img {
+            width: 100px;
+        }
+
+        .inputboxl {
+            display: flex;
+            align-items: center;
+            width: 250px;
+            height: 45px;
+            margin-left: 20px;
+        }
+        /* .inputboxl input{
+            flex: 1;
+            border: none;
+            outline: 0;
+            background-color: transparent;
+            padding-left: 15px;
+        } */
+
+        .inputbox2 {
+            display: flex;
+            align-items: center;
+            width: 600px;
+            border: 2px solid black;
+            height: 45px;
+            border-radius: 5px;
+            margin-right: 30px;
+        }
+
+            .inputbox2 input {
+                flex: 1;
+                border: none;
+                outline: 0;
+                background-color: transparent;
+                padding-left: 15px;
+                margin-left: 30px;
+            }
+
+        .log:hover {
+            text-decoration: underline;
+        }
+
+        .sell-button {
+            margin-left: 0px;
+            padding: 15px;
+            border-radius: 20px;
+            background-color: white;
+            border-bottom: 3px solid rgb(128, 128, 226);
+            border-top: 3px solid #23e5db;
+            border-left: 3px solid #ffce32;
+            border-right: 3px solid rgb(44, 139, 216);
+            margin-left: 20px;
+            height: 70px;
+        }
+
+        .second-header {
+            width: 100%;
+            height: 40px;
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            background-color: #f3f3f3;
+            /* border:2px solid red; */
+        }
+
+            .second-header a {
+                text-decoration: none;
+                color: red;
+                margin-left: 15px;
+                font-size: 16px;
+                font-weight: 500;
+            }
+
+                .second-header a:hover {
+                    color: cornflowerblue;
+                }
+
+        .footeradd {
+            width: 100%;
+            position: absolute;
+            top: 164%;
+            background-color: rgb(253, 247, 247);
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            margin-left: -200px;
+        }
+
+            .footeradd img {
+                width: 320px;
+                margin-left: 20%;
+            }
+
+            .footeradd h1 {
+                margin-left: 170px;
+            }
+
+            .footeradd p {
+                margin-top: 80px;
+                margin-left: -225px;
+                width: 30%;
+            }
+
+        a:hover {
+            text-decoration: underline red;
+        }
+
+        .icons {
+            position: absolute;
+            top: 4%;
+            left: 70%;
+        }
+
+        dropdown {
+            position: absolute;
+            margin-right: 20px;
+            top: 20%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            background: black;
+            width: 400px;
+            z-index: 50;
+        }
+
+        nav {
+            top: 20%;
+            left: 50%;
+            background: black;
+            width: 300px;
+            line-height: 25px;
+            padding: 8px 25px;
+        }
+
+            nav label {
+                color: white;
+                font-size: 22px;
+                font-weight: 500;
+                display: block;
+                cursor: pointer;
+            }
+
+        .button span {
+            float: right;
+            line-height: 35px;
+        }
+        /* nav ul{
+                position:absolute;
+                background:#1b1b1b;
+                list-style:none;
+                top:70px;
+                width:100%;
+            }*/
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        nav ul {
+            position: absolute;
+            background: #1b1b1b;
+            list-style: none;
+            top: 70px;
+            width: 100%;
+            left: 0;
+            border-radius: 5px;
+            display: none;
+        }
+
+        [id^=btn]:checked + ul {
+            display: block;
+        }
+
+        nav .menu:before {
+            position: absolute;
+            content: '';
+            height: 20px;
+            width: 20px;
+            background: #1b1b1b;
+            right: 20px;
+            top: -10px;
+            transform: rotate(45deg);
+            z-index: -1;
+        }
+
+        nav ul li {
+            line-height: 40px;
+            padding: 8px 20px;
+            cursor: pointer;
+            border-bottom: 1px solid rgba(0,0,0,0.2);
+        }
+
+            nav ul li label {
+                font-size: 18px;
+            }
+
+        nav ul li {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            display: block;
+        }
+
+        nav ul ul li a:hover,
+        nav ul ul li label:hover {
+            color: cyan;
+        }
+
+        nav ul ul {
+            position: static;
+        }
+
+            nav ul ul li {
+                line-height: 30px;
+                padding-left: 30px;
+                border-bottom: none;
+            }
+
+                nav ul ul li a {
+                    color: #e6e6e6;
+                    font-size: 18px;
+                }
+
+            nav ul ul span {
+                font-size: 20px;
+                float: right;
+                margin-top: 10px;
+                padding: 0 10px;
+            }
+
+        /* input {
+            display:none;
+        }*/
+        container {
+            width: 100%;
+            min-height: 100vh;
+            padding: 5%;
+            background-image: linear-gradient(rgba(0,8,51,0.9),rgba(0,8,51,0.9));
+            background-position: center;
+            background-size: cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            float: left;
+        }
+
+        .search-bar {
+            width 100%;
+            max-width: 700px;
+            background: rgb(48 51 68 / 0.90) display:flex;
+            align-items: center;
+            border-radius: 60px;
+            padding: 10px 20px;
+        }
+
+            .search-bar input {
+                background: scroll;
+                flex: 1;
+                border: 0;
+                outline: none;
+                padding: 24px 20px;
+                font-size: 20px;
+                color: aqua;
+            }
+
+
+        .checkboxnone {
+            display: none;
+        }
+    </style>
+
 </head>
+
+
+
+
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                </ul>
+
+    <header>
+        <div class="logo">
+            <img src="~/images/olx-logo-vector.png" alt="">
+        </div>
+        <div class="inputboxl">
+
+
+            <select name="location" id="location" class="c">
+                <option value="" selected="loaction">Select Location</option>
+                <option value="mha">Maharashtra</option>
+                <option value="gj">Gujrat</option>
+                <option value="ap">Andhra Pradesh</option>
+                <option value="Uk">Uttarakhand</option>
+                <option value="UP">Uttar Pradesh</option>
+            </select>
+        </div>
+
+
+        <div class="inputbox2">
+            <input type="text" placeholder="Serach Here...">
+            <div class="searchbox"
+                 style="width: 60px; height: 45px; background-color: #000; display: flex; align-items: center;">
+
+                <i class="fa-solid fa-magnifying-glass fa-beat ab"
+                   style="color: #d4d4d4; margin-right: 40px; padding: 20px;"></i>
+                <img src="search7780.jpg" alt="" style="width: 20px; margin-left: 5px; margin-right: 30px;">
             </div>
         </div>
-    </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
+
+
+
+
+        <div class="dropdown">
+
+            <select name="location" id="location" class="c">
+                <option value="" selected="loaction">Select Language</option>
+                <option value="">English</option>
+                <option value="">हिंदी</option>
+                <option value="">मराठी </option>
+
+
+
+
+
+            </select>
+        </div>
+
+
+
+
+
+        <a href="User/loginType" style="color: black; font-weight:700;" margin-left:20px;" id="log">Login</a>
+
+
+
+        <div class="sell">
+            <a href="https://www.olx.in/">
+                <button class="sell-button ">
+                    <i class="fa-solid fa-plus fa-beat">sell</i>
+
+                </button>
+            </a>
+        </div>
+
+
+
+    </header>
+
+
+    <div class="second-header a">
+
+        <div class="dropdown">
+            <nav>
+                <label for="btn" class="button">
+                    All Category
+                    <span class="fas fa-caret-down"></span>
+                </label>
+                <input type="checkbox" id="btn" class="checkboxnone">
+                <ul class="menu">
+
+
+                    <li>
+                        <label for="btn-2" class="first">cars <span class="fas fa-caret-down"></span></label>
+                        <input type="checkbox" id="btn-2" class="checkboxnone">
+                        <ul>
+                            <li><a href="">bmw</a></li>
+                            <li><a href="">mini copper</a></li>
+
+                        </ul>
+                    </li>
+
+                    <li>
+                        <label for="btn-3" class="second">fashion <span class="fas fa-caret-down"></span></label>
+                        <input type="checkbox" id="btn-3" class="checkboxnone"><ul>
+                            <li><a href="">shoes</a></li>
+                            <li><a href="">kurta</a></li>
+
+                        </ul>
+                    </li>
+
+                    <li>
+                        <label for="btn-4" class="third">mobile <span class="fas fa-caret-down"></span></label>
+                        <input type="checkbox" id="btn-4" class="checkboxnone">  <ul>
+                            <li><a href="">apple</a></li>
+                            <li><a href="">samsung</a></li>
+
+                        </ul>
+                    </li>
+
+                </ul>
+            </nav>
+
+
+
+        </div>
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+
+
+
+
+
+
+
+
+    <div class="container body-content">
+        @RenderBody()
+
+
+        <div class="footeradd">
+
+            <img src="~/images/add2.png" alt="" width="100%">
+            <h3>TRY THE OLX APP</h3>
+            <p> Buy and Sell anything using the application</p>
+            <!-- <a href="https://play.google.com/store/apps/details?id=com.olx.southasia&hl=en&gl=US">
+            <image src="google-play-badge.png" alt="hhh"> -->
+            <div><span>Get your app today</span></div>
+
+            <a href="https://apps.apple.com/in/app/olx-buy-sell-near-you/id913492792?utm_source=desktop_ios&amp;utm_medium=home_banner
+            &amp;utm_campaign=home">
+                <picture>
+                    <img src="https://statics.olx.in/external/base/img/appstore_2x.png" style="width: fit-content;margin-top: 60px; margin: 1000px,0px,0px,24px;" alt="ios-app-store"
+                         class="icons">
+                </picture>
+            </a><br>
+
+            <a href="https://play.google.com/store/apps/details?id=com.olx.southasia&amp;hl=en_IN
+                &amp;utm_source=desktop_android&amp;utm_medium=home_banner&amp;utm_campaign=home">
+                <picture>
+
+                    <img src="https://statics.olx.in/external/base/img/playstore_2x.png" style="width: fit-content ;"
+                         alt="android-app-store" class="icons2">
+                </picture>
+            </a>
+        </div>
+    </div>
+    <footer>
+    </footer>
 </body>
 </html>
+
