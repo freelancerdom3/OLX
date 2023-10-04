@@ -1,0 +1,127 @@
+﻿@model IEnumerable<Olx_New_Project.Models.AdvertiseListModel>
+
+@{
+    ViewBag.Title = "AdvList";
+}
+
+<div class="container">
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+            <input type="text" id="SearchItem" placeholder="Search" class="form-control" />
+        </div>
+    </div>
+</div>
+
+<p>
+    @Html.ActionLink("Create New", "AdvCreate")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.advertiseId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.productSubCategoryId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.advertiseTitle)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.advertiseDescription)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.advertisePrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.areaId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.advertiseStatus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.userId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.advertiseapproved)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.createdOn)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.updatedOn)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr class="SearchItem">
+            <td>
+                @Html.DisplayFor(modelItem => item.advertiseId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.productSubCategoryId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.advertiseTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.advertiseDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.advertisePrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.areaId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.advertiseStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.userId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.advertiseapproved)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.createdOn)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.updatedOn)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "AdvEdit", new { advertiseId = item.advertiseId })
+                @Html.ActionLink("Details", "AdvDetails", new { advertiseId = item.advertiseId })
+                @Html.ActionLink("Delete", "AdvDelete", new { advertiseId = item.advertiseId })
+            </td>
+        </tr>
+    }
+
+</table>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script>
+$(document).ready(function () {
+
+function Contains(text_one, text_two) {
+if (text_one.indexOf(text_two) != -1)
+return true;
+}
+$("#SearchItem").keyup(function () {
+
+var searchText = $("#SearchItem").val().toLowerCase();
+$(".SearchItem").each(function () {
+
+if (!Contains($(this).text().toLowerCase(), searchText)) {
+$(this).hide();
+}
+else {
+$(this).show();
+}
+
+});
+
+});
+
+});
+</script>

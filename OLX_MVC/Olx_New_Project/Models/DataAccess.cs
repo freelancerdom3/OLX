@@ -268,5 +268,107 @@ namespace Olx_New_Project.Models
                 }
                 return ul;
             }
+
+        public IEnumerable<AdvertiseListModel> GetAllAdvertiseList()
+        {
+            connection();
+            List<AdvertiseListModel> lstadv = new List<AdvertiseListModel>();
+            SqlCommand cmd = new SqlCommand("spViewtbl_MyAdvertise", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+            con.Open();
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            while (rdr.Read())
+            {
+                AdvertiseListModel product = new AdvertiseListModel();
+                product.advertiseId = Convert.ToInt32(rdr["advertiseId"]);
+                product.productSubCategoryId = Convert.ToInt32(rdr["productSubCategoryId"]);
+                product.advertiseTitle = rdr["advertiseTitle"].ToString();
+                product.advertiseDescription = rdr["advertiseDescription"].ToString();
+                product.advertisePrice = Convert.ToInt32(rdr["advertisePrice"]);
+                product.areaId = Convert.ToInt32(rdr["areaId"]);
+                product.advertiseStatus = Convert.ToBoolean(rdr["advertiseStatus"]);
+                product.userId = Convert.ToInt32(rdr["userId"]);
+                product.createdOn = Convert.ToDateTime(rdr["createdOn"]);
+                product.updatedOn = Convert.ToDateTime(rdr["updatedOn"]);
+                product.advertiseapproved = Convert.ToBoolean(rdr["advertiseapproved"]);
+                lstadv.Add(product);
+            }
+            con.Close();
+            return lstadv;
         }
+
+        public void AddAdvertiseList(AdvertiseListModel product)
+        {
+            connection();
+            SqlCommand cmd = new SqlCommand("spInserttbl_MyAdvertise", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@advertiseId", product.advertiseId);
+            cmd.Parameters.AddWithValue("@productSubCategoryId", product.productSubCategoryId);
+            cmd.Parameters.AddWithValue("@advertiseTitle", product.advertiseTitle);
+            cmd.Parameters.AddWithValue("@advertiseDescription", product.advertiseDescription);
+            cmd.Parameters.AddWithValue("@advertisePrice", product.advertisePrice);
+            cmd.Parameters.AddWithValue("@areaId", product.areaId);
+            cmd.Parameters.AddWithValue("@userId", product.userId);
+            con.Open();
+            cmd.ExecuteNonQuery();
+            con.Close();
+        }
+
+        public void UpdateAdvertiseList(AdvertiseListModel product)
+        {
+            connection();
+            SqlCommand cmd = new SqlCommand("spUpdatetbl_MyAdvertise", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@advertiseId", product.advertiseId);
+            cmd.Parameters.AddWithValue("@productSubCategoryId", product.productSubCategoryId);
+            cmd.Parameters.AddWithValue("@advertiseTitle", product.advertiseTitle);
+            cmd.Parameters.AddWithValue("@advertiseDescription", product.advertiseDescription);
+            cmd.Parameters.AddWithValue("@advertisePrice", product.advertisePrice);
+            cmd.Parameters.AddWithValue("@addstatus", product.advertiseStatus);
+            cmd.Parameters.AddWithValue("@areaId", product.areaId);
+            cmd.Parameters.AddWithValue("@userId", product.userId);
+            cmd.Parameters.AddWithValue("@advapproved", product.advertiseapproved);
+            con.Open();
+            cmd.ExecuteNonQuery();
+            con.Close();
+        }
+        public AdvertiseListModel GetAdvertiseList(int? advertiseId)
+        {
+            connection();
+            AdvertiseListModel product = new AdvertiseListModel();
+            string sqlQuery = "SELECT * FROM tbl_MyAdvertise WHERE advertiseId= " + advertiseId;
+            SqlCommand cmd = new SqlCommand(sqlQuery, con);
+            con.Open();
+            SqlDataReader rdr = cmd.ExecuteReader();
+            while (rdr.Read())
+            {
+                product.advertiseId = Convert.ToInt32(rdr["advertiseId"]);
+                product.productSubCategoryId = Convert.ToInt32(rdr["productSubCategoryId"]);
+                product.advertiseTitle = rdr["advertiseTitle"].ToString();
+                product.advertiseDescription = rdr["advertiseDescription"].ToString();
+                product.advertisePrice = Convert.ToInt32(rdr["advertisePrice"]);
+                product.areaId = Convert.ToInt32(rdr["areaId"]);
+                product.advertiseStatus = Convert.ToBoolean(rdr["advertiseStatus"]);
+                product.userId = Convert.ToInt32(rdr["userId"]);
+                product.createdOn = Convert.ToDateTime(rdr["createdOn"]);
+                product.updatedOn = Convert.ToDateTime(rdr["updatedOn"]);
+                product.advertiseapproved = Convert.ToBoolean(rdr["advertiseapproved"]);
+
+            }
+            return product;
+        }
+
+        public void DeleteAdvertiseList(int? advertiseId)
+        {
+            connection();
+            SqlCommand cmd = new SqlCommand("spDeletetbl_MyAdvertise", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@advertiseId", advertiseId);
+            con.Open();
+            cmd.ExecuteNonQuery();
+            con.Close();
+        }
+
+    }
 }
