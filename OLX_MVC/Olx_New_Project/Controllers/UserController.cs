@@ -16,6 +16,10 @@ namespace Olx_New_Project.Controllers
         {
             return View();
         }
+        public ActionResult loginType()
+        {
+            return View();
+        }
         public ActionResult login()
         {
             return View();
