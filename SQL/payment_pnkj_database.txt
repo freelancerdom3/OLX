@@ -1,0 +1,103 @@
+https://localhost:44351/Product/AddMoney?userId=4&amountToAdd=10
+
+
+// user table
+
+create table Users
+(
+userId int identity primary key,
+firstName varchar(20),
+lastName varchar(20),
+userEmail varchar(50),
+userPassword varchar(10),
+MobileNo varchar(15),
+Gender varchar(10),
+Dob datetime,
+createdOn datetime default getdate(),
+updatedOn datetime default getdate()
+);
+drop table Users;
+insert into Users values('Payal',' Limbola','limbolapayal@gmail.com','Payal@03' ,6359797875,'Female','2000-03-13',GETDATE(),GETDATE())
+insert into Users values('Shreyanshi','Darji','shreyanshidarji@gmail.com','Shreya@03',9872932562 ,'Female','2000-03-23',GETDATE(),GETDATE())
+insert into Users values('Dhriti','Patel','dhritipatel@gmail.com','Dhriti@03',8796543245 ,'Female','2000-09-03',GETDATE(),GETDATE())
+insert into Users values('Tithi','Patel','tithipatel@gmail.com','Tithi@03',6359125453 ,'Female','2000-11-13',GETDATE(),GETDATE())
+insert into Users values('Karan','Shah','karanshah@gmail.com','Karan@03' ,9978853651,'Male','2000-08-27',GETDATE(),GETDATE())
+insert into Users values('Darshan','Modi','darshanmodi@gmail.com','Darshan@03',6359797874 ,'Male','2000-05-11',GETDATE(),GETDATE())
+
+
+advertise table 
+create table tbl_MyAdvertise
+(
+advertiseId int identity(1,1),
+productSubCategoryId int,
+advertiseTitle varchar(70)NOT NULL,
+advertiseDescription varchar(255)NOT NULL,
+advertisePrice decimal(10,2) NOT NULL,
+areaId int,
+advertiseStatus bit default 0,
+userId int,
+advertiseapproved bit default 0 ,
+createdOn dateTime default getdate(),
+updatedOn dateTime default getdate()
+);
+
+select * from tbl_MyAdvertise;
+INSERT INTO tbl_MyAdvertise (productSubCategoryId, advertiseTitle, advertiseDescription, advertisePrice, advertiseStatus, userId)
+VALUES
+(1, 'anywhere door', 'can go anywhere', 99.99, 1),
+(2, 'bambo copter', 'fly', 49.99, 2),
+(1, 'pocket', 'gadget', 79.99, 3);
+
+
+select * from tbl_MyAdvertise;
+
+update tbl_MyAdvertise 
+set advertiseStatus =0 where advertiseId=1;
+
+update tbl_MyAdvertise 
+set advertiseStatus =1 where advertiseId=2;
+
+update tbl_MyAdvertise 
+set advertiseStatus =0 where advertiseId=3;
+
+
+
+
+// seller table
+create table PaymentdetailsSeller
+(
+PaymentIds int identity primary key,
+ReceivedAmount int,
+SellerWallet int,
+TransactionIds int,
+advertiseId int,
+TransactionTimeS datetime default getdate()
+);
+
+
+
+
+
+buyer table
+drop table PaymentdetailsBuyer;
+
+CREATE TABLE PaymentdetailsBuyer
+(
+    paymentIdB INT IDENTITY PRIMARY KEY,
+    TotalamountPaid DECIMAL(10, 2), -- Use DECIMAL for storing monetary values
+    transactionId INT,
+    Buyerwallet DECIMAL(10, 2), -- Use DECIMAL for storing monetary values
+    advertiseId INT, -- which product is bought; it will affect this column
+    userId INT, -- Add this column to reference the buyer's user ID; it will affect after the user will purchase the product
+    TransactionTimeP DATETIME DEFAULT GETDATE()
+);
+
+select * from PaymentdetailsBuyer;
+
+select Buyerwallet from PaymentdetailsBuyer where userId=4;
+
+INSERT INTO PaymentdetailsBuyer (Buyerwallet, userId)
+VALUES (2000.00, 1),
+       (400.00, 2),
+       (10.00, 3);
+

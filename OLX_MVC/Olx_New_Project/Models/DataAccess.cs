@@ -472,5 +472,151 @@ namespace Olx_New_Project.Models
             con.Close();
         }
 
+
+        public bool IsProductAvailable(int advertiseId)
+        {
+            connection();
+            SqlCommand com = new SqlCommand("SELECT advertiseStatus FROM tbl_MyAdvertise WHERE advertiseId = @AdvertiseId", con);
+            com.Parameters.AddWithValue("@AdvertiseId", advertiseId);
+
+            con.Open();
+            SqlDataReader sqlDataReader = com.ExecuteReader();
+
+            bool result = false;  // Initialize the result variable as false
+
+            if (sqlDataReader.Read())  // Check if there is a row to read
+            {
+                result = !sqlDataReader.GetBoolean(0); // Invert the result: true for 0, false for 1
+            }
+
+            con.Close();
+
+            return result;
+        }
+
+
+        public bool AddingMoneyToBuyerWallet(int userId, int amountToAdd)
+        {
+            connection();
+            int paymentIdB = 0;
+            SqlCommand getpaymentidB = new SqlCommand("select paymentIdB from PaymentdetailsBuyer where userId = @userId", con);
+            getpaymentidB.Parameters.AddWithValue("@userId", userId);
+            con.Open();
+
+            SqlDataReader reader = getpaymentidB.ExecuteReader();
+
+            if (reader.Read())
+            {
+                paymentIdB = reader.GetInt32(0);
+                reader.Close();
+
+                if (paymentIdB > 0)
+                {
+                    // User exists, update Buyerwallet
+                    SqlCommand updateBuyerwallet = new SqlCommand("UPDATE PaymentdetailsBuyer SET Buyerwallet = Buyerwallet + @amountToAdd WHERE userId = @userId", con);
+                    updateBuyerwallet.Parameters.AddWithValue("@amountToAdd", amountToAdd);
+                    updateBuyerwallet.Parameters.AddWithValue("@userId", userId);
+
+                    int rowsAffected = updateBuyerwallet.ExecuteNonQuery();
+
+                    if (rowsAffected > 0)
+                    {
+                        con.Close();
+                        return true;
+                    }
+                }
+            }
+            else
+            {
+                reader.Close(); // Close the DataReader before proceeding
+
+                // User does not exist, insert a new record
+                SqlCommand insertUserIdWallet = new SqlCommand("INSERT INTO PaymentdetailsBuyer (userId, Buyerwallet) VALUES (@userId, @Buyerwallet)", con);
+                insertUserIdWallet.Parameters.AddWithValue("@userId", userId);
+                insertUserIdWallet.Parameters.AddWithValue("@Buyerwallet", amountToAdd);
+
+                int rowsAffected = insertUserIdWallet.ExecuteNonQuery();
+
+                if (rowsAffected > 0)
+                {
+                    con.Close();
+                    return true;
+                }
+            }
+            con.Close();
+            return false;
+        }
+
+
+
+
+
+
+
+        public bool PurchaseProduct(int userId, int advertiseId)
+        {
+            connection();
+
+            // Check if the product is available
+            bool isAvailable = IsProductAvailable(advertiseId);
+
+            if (!isAvailable)
+            {
+                // Product is not available
+                return false;
+            }
+
+            // Get the advertise price for the given advertiseId
+            decimal advertisePrice = 0;
+            SqlCommand getPriceCommand = new SqlCommand("SELECT advertisePrice FROM tbl_MyAdvertise WHERE advertiseId = @AdvertiseId", con);
+            getPriceCommand.Parameters.AddWithValue("@AdvertiseId", advertiseId);
+
+            con.Open();
+            SqlDataReader priceReader = getPriceCommand.ExecuteReader();
+            if (priceReader.Read())
+            {
+                advertisePrice = priceReader.GetDecimal(0);
+            }
+            con.Close();
+
+            // Check if the user has a sufficient balance
+            SqlCommand checkBalanceCommand = new SqlCommand("SELECT Buyerwallet FROM PaymentdetailsBuyer WHERE userId = @UserId", con);
+            checkBalanceCommand.Parameters.AddWithValue("@UserId", userId);
+
+            con.Open();
+            SqlDataReader balanceReader = checkBalanceCommand.ExecuteReader();
+            decimal buyerWallet = 0;
+            if (balanceReader.Read())
+            {
+                buyerWallet = balanceReader.GetDecimal(0);
+            }
+            con.Close();
+
+            if (buyerWallet >= advertisePrice)
+            {
+                // User has sufficient balance, proceed with the purchase
+                decimal totalAmountPaid = advertisePrice;
+
+                // Update the TotalamountPaid for the user and advertiseId
+                SqlCommand updateTotalAmountCommand = new SqlCommand("UPDATE PaymentdetailsBuyer SET TotalamountPaid = @TotalAmountPaid, advertiseId = @AdvertiseId WHERE userId = @UserId", con);
+                updateTotalAmountCommand.Parameters.AddWithValue("@TotalAmountPaid", totalAmountPaid);
+                updateTotalAmountCommand.Parameters.AddWithValue("@UserId", userId);
+                updateTotalAmountCommand.Parameters.AddWithValue("@AdvertiseId", advertiseId);
+
+                con.Open();
+                int rowsAffected = updateTotalAmountCommand.ExecuteNonQuery();
+                con.Close();
+
+                if (rowsAffected > 0)
+                {
+                    // Successfully purchased the product, you can update the product status or perform other actions here
+                    return true;
+                }
+            }
+
+            // Insufficient balance or update failed
+            return false;
+        }
+
     }
 }

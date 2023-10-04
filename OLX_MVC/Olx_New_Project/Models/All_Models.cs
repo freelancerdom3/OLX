@@ -94,4 +94,45 @@ namespace Olx_New_Project.Models
 
     }
 
+
+    // payment models pnkj
+
+    public class Users
+    {
+        public int userId { get; set; }
+    }
+    public class MyAdvertise
+    {
+        public int advertiseId { get; set; }
+        public int advertiseapproved { get; set; }
+
+        public int userId { get; set; }
+    }
+
+    public class PaymentdetailsSeller
+    {
+        public int PaymentIds { get; set; }
+
+        public int ReceivedAmount { get; set; }
+
+        public int SellerWallet { get; set; }
+        public int TransactionIds { get; set; }
+
+        public int advertiseId { get; set; }
+        public DateTime TransactionTimeS { get; set; }
+
+
+    }
+
+    public class PaymentdetailsBuyer
+    {
+        public int paymentIdB { get; set; }
+        public decimal TotalamountPaid { get; set; }
+        public int transactionId { get; set; }
+        public decimal Buyerwallet { get; set; }
+        public int advertiseId { get; set; }
+        public int userId { get; set; }
+        public DateTime TransactionTimeP { get; set; }
+    }
+
 }
