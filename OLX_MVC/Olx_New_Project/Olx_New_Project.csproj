@@ -176,14 +176,14 @@
     <Content Include="Views\Shared\Admin_Layout.cshtml" />
     <Content Include="Views\Admin\SubCategoryList.cshtml" />
     <Content Include="Views\Admin\Dashboard.cshtml" />
-
     <Content Include="Views\User\login.cshtml" />
-
     <Content Include="Views\Admin\UserIndex.cshtml" />
     <Content Include="Views\Admin\UserDetails.cshtml" />
     <Content Include="Views\Admin\UserEdit.cshtml" />
     <Content Include="Views\Admin\UserDelete.cshtml" />
-
+    <Content Include="Views\User\loginType.cshtml" />
+    <Content Include="Views\User\MatchOtp.cshtml" />
+    <Content Include="Views\User\sendotp.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
